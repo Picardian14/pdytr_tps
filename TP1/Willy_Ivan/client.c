@@ -81,24 +81,24 @@ int main(int argc, char *argv[])
     //ENVIA UN MENSAJE AL SOCKET
     memcpy((buffer+amount_read), checksuma, 16);
     
-    clock_t start, end=0;
+    /*clock_t start, end=0;     ESTE CODIGO ES PARA HACER LA ESCRITURA DE LOS TIEMPOS. EN DOCKER NO SE PODIA ABRIR UN NUEVO ARCHIVO
     double cpu_time;
     start = clock();
     FILE *fp;
     fp = fopen("./tiempos1024","a+");
     if(fp ==NULL) printf("No se pudo abrir el archivo. Revisar permisos de escritura");
 	n = write(sockfd,buffer,strlen(buffer));
-    end = clock();
+    end = clock();*/
     if (n < 0) 
          error("ERROR writing to socket");
     bzero(buffer,BUF_SIZE);
 	
     //ESPERA RECIBIR UNA RESPUESTA
 	n = read(sockfd,buffer,BUF_SIZE);
-    end = clock();
+    /*end = clock();
     cpu_time = end - start;
     fprintf(fp, "%f\n", cpu_time);
-    close(fp);
+    close(fp);*/
     if (n < 0) 
          error("ERROR reading from socket");
     
