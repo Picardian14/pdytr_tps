@@ -4,6 +4,8 @@
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <time.h>
+
 #define BUF_SIZE 4080
 void error(char *msg)
 {
@@ -73,10 +75,7 @@ int main(int argc, char *argv[])
     for(int k=0;k<padding;k++){
         sum[k]=sum[k]+buffer[num_packets*16+k];
     }
-    for(int i=0; i<16;i++){
-         checksum[i] = buffer[size_sent+i];
-    }
-    char prueba[16];
+    memcpy(checksum,(buffer+size_sent),16);
      for(int k=0; k<16;k++){
           if (~(checksum[k] ^ sum[k])){
                error("Error en el checksum. Paquete corrompido");
@@ -89,7 +88,6 @@ int main(int argc, char *argv[])
      }
      printf("\n");
      if (n < 0) error("ERROR reading from socket");
-     //printf("%d", strlen(checksum));
      printf("Here is the message: %s\n",rcvd_message);
 	 
 	 //RESPONDE AL CLIENTE

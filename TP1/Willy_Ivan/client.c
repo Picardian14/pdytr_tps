@@ -60,47 +60,36 @@ int main(int argc, char *argv[])
     bzero(buffer, BUF_SIZE);
     fgets(buffer,BUF_SIZE,stdin);
 
-    //CHECKsuma
+    //CHECKSUM
     int amount_read =strlen(buffer);
-    
     int num_packets = (amount_read / 16);
     int padding = amount_read % 16;
     char suma[16], checksuma[16];
     bzero(suma, 16);
-    
     for (int i=0; i<num_packets;i++){
         for(int j=0; j<16;j++){
             suma[j]=suma[j]+buffer[(i*16)+j];
         }
     }
-    for(int k=0;k<padding;k++){
+    for(int k=0;k<padding;k++){ //Agregamos lo que no entra en paquetes 16
         suma[k]=suma[k]+buffer[(num_packets*16)+k];
     }
-    
-    for(int i=0; i<16;i++){
+    for(int i=0; i<16;i++){ 
         checksuma[i]=~suma[i];
     }
-    
-    
-    //FIN CHECKsuma
+    //FIN CREACION CHECKSUM
     //ENVIA UN MENSAJE AL SOCKET
+    memcpy((buffer+amount_read), checksuma, 16);
+    //for(int i=0;i<16;i++){
+    //    buffer[amount_read+i]=checksuma[i];
+    //}
     
-    
-    //strcat(buffer,checksuma);
-    //printf("%s\n", buffer);
-    for(int i=0;i<16;i++){
-        buffer[amount_read+i]=checksuma[i];
-    }
-    printf("%d", strlen(checksuma));
-    //printf("%s", buffer);
-
     clock_t start, end=0;
     double cpu_time;
     start = clock();
     FILE *fp;
-    fp = fopen("/home/mrmister/Facultad/4to/Pdytr/tiempos","a+");
+    fp = fopen("./tiempos","a+");
     if(fp ==NULL) printf("no se abrio");
-    
 	n = write(sockfd,buffer,strlen(buffer));
     end = clock();
     if (n < 0) 
