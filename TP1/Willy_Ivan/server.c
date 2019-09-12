@@ -6,7 +6,7 @@
 #include <netinet/in.h>
 #include <time.h>
 
-#define BUF_SIZE 4080
+#define BUF_SIZE 1008
 void error(char *msg)
 {
     perror(msg);

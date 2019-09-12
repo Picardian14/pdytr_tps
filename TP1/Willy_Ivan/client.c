@@ -7,7 +7,7 @@
 #include <string.h>
 #include <time.h>
 
-#define BUF_SIZE 4080
+#define BUF_SIZE 1008
 
 void error(char *msg)
 {
@@ -80,16 +80,13 @@ int main(int argc, char *argv[])
     //FIN CREACION CHECKSUM
     //ENVIA UN MENSAJE AL SOCKET
     memcpy((buffer+amount_read), checksuma, 16);
-    //for(int i=0;i<16;i++){
-    //    buffer[amount_read+i]=checksuma[i];
-    //}
     
     clock_t start, end=0;
     double cpu_time;
     start = clock();
     FILE *fp;
-    fp = fopen("./tiempos","a+");
-    if(fp ==NULL) printf("no se abrio");
+    fp = fopen("./tiempos1024","a+");
+    if(fp ==NULL) printf("No se pudo abrir el archivo. Revisar permisos de escritura");
 	n = write(sockfd,buffer,strlen(buffer));
     end = clock();
     if (n < 0) 
